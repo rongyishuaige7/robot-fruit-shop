@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>机器人水果店</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="robot-container" id="robotBtn">
+                <img src="robot.png" alt="机器人服务员" class="robot-img">
+            </div>
+            <h1 class="title">🤖 机器人水果店</h1>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel: Calculator -->
+            <div class="left-panel">
+                <div class="calc-header">
+                    <img src="fruit_shop.png" alt="水果橱窗" class="storefront-img">
+                </div>
+                <div class="calculator">
+                    <div class="calc-screen" id="calcScreen"></div>
+                    <div class="calc-keys">
+                        <button class="calc-btn num" data-val="1">1</button>
+                        <button class="calc-btn num" data-val="2">2</button>
+                        <button class="calc-btn num" data-val="3">3</button>
+                        <button class="calc-btn num" data-val="4">4</button>
+                        <button class="calc-btn num" data-val="5">5</button>
+                        <button class="calc-btn num" data-val="6">6</button>
+                        <button class="calc-btn num" data-val="7">7</button>
+                        <button class="calc-btn num" data-val="8">8</button>
+                        <button class="calc-btn num" data-val="9">9</button>
+                        <button class="calc-btn num num-10" data-val="10">10</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Game Area -->
+            <div class="right-panel">
+                <div class="instruction">
+                    📦 请把水果放到购物袋里，<span class="highlight-text">2个2个分</span>：
+                </div>
+
+                <div class="game-area" id="gameArea">
+                    <div class="bags-container" id="bagsContainer">
+                        <!-- Bags will be generated here -->
+                    </div>
+                    <div class="fruits-container" id="fruitsContainer">
+                        <!-- Fruits will be scattered here -->
+                    </div>
+                </div>
+
+                <div class="controls-container">
+                    <button class="control-btn check-btn" id="checkBtn">✅</button>
+                    <button class="control-btn reset-btn" id="resetBtn">🗑️ 清空</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

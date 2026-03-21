@@ -398,3 +398,35 @@ body {
 .reset-btn:hover {
     background-color: #ff4d94;
 }
+
+@keyframes bagBounce {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.15) translateY(-8px); }
+    70%  { transform: scale(0.95) translateY(2px); }
+    100% { transform: scale(1); }
+}
+
+@keyframes btnShake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-6px); }
+    40%       { transform: translateX(6px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+}
+
+.bag.success-bounce {
+    animation: bagBounce 0.5s ease;
+}
+
+.check-btn.success-flash {
+    background-color: #ccffcc;
+    border-color: #66cc66;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.check-btn.error-shake {
+    animation: btnShake 0.4s ease;
+    background-color: #ffcccc;
+    border-color: #ff6666;
+    transition: background-color 0.2s, border-color 0.2s;
+}

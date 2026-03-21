@@ -301,26 +301,28 @@ checkBtn.addEventListener('click', () => {
         totalFruits += len;
     });
     
-    // 验证：所有水果都按每袋 2 个分组（最多允许 1 个余数袋）
-    const expected2 = Math.floor(totalFruits / 2);
-    const expected1 = totalFruits % 2;
-    
-    if (count2 !== expected2 || count1 !== expected1) {
+    // 验证：count2*2 + count1 === totalFruits，且 count1 <= 2
+    // 即所有水果都装进了袋子，每袋不超过2个，余数袋最多2个
+    if (count2 * 2 + count1 !== totalFruits || count1 > 2) {
         isCorrect = false;
     }
-    
+
     if (isCorrect) {
         playSound('success');
 
-        // 找出空袋子（两个奇数相加时，余数袋合并后会留下空袋）
+        // 找出空袋子（两个余数水果合并后留下的空袋）
         const emptyBags = Array.from(document.querySelectorAll('.bag')).filter(
             b => b.querySelectorAll('.fruit').length === 0
         );
 
-        // 非空袋子显示绿色成功动画
+        // 确认按钮变绿
+        checkBtn.classList.add('success-flash');
+
+        // 非空袋子绿色背景 + 弹跳动画
         document.querySelectorAll('.bag').forEach(b => {
             if (b.querySelectorAll('.fruit').length > 0) {
                 b.style.backgroundColor = '#ccffcc';
+                b.classList.add('success-bounce');
             }
         });
 
@@ -332,15 +334,25 @@ checkBtn.addEventListener('click', () => {
         });
 
         setTimeout(() => {
-            document.querySelectorAll('.bag').forEach(b => b.style.backgroundColor = '');
-            // 从 DOM 中移除空袋子
+            document.querySelectorAll('.bag').forEach(b => {
+                b.style.backgroundColor = '';
+                b.classList.remove('success-bounce');
+            });
+            checkBtn.classList.remove('success-flash');
             emptyBags.forEach(b => b.remove());
         }, 1000);
     } else {
         playSound('error');
+
+        // 确认按钮抖动变红
+        checkBtn.classList.add('error-shake');
         document.querySelectorAll('.bag').forEach(b => b.style.backgroundColor = '#ffcccc');
+
         setTimeout(() => {
             document.querySelectorAll('.bag').forEach(b => b.style.backgroundColor = '');
-        }, 1000);
+            checkBtn.classList.remove('error-shake');
+            checkBtn.style.backgroundColor = '';
+            checkBtn.style.borderColor = '';
+        }, 600);
     }
 });

@@ -13,6 +13,11 @@
     font-family: 'Comic Sans MS', 'Chalkboard SE', 'Microsoft YaHei', sans-serif;
 }
 
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 body {
     background-color: #ffe6f2;
     background-image:
@@ -38,6 +43,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-height: 0;
 }
 
 .header {
@@ -101,6 +107,7 @@ body {
     padding: 20px;
     gap: 20px;
     height: calc(100% - 80px);
+    min-height: 0;
 }
 
 /* Left Panel */
@@ -113,6 +120,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 0;
+    min-width: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    align-self: stretch;
 }
 
 .calc-header {
@@ -138,10 +150,14 @@ body {
 
 .storefront-img {
     width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
     border-radius: 15px;
     margin-top: 5px;
     box-shadow: 0 6px 12px rgba(255, 102, 163, 0.2);
     border: 3px solid #ffb3d9;
+    object-fit: cover;
 }
 
 
@@ -224,6 +240,8 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
+    min-height: 0;
+    min-width: 0;
 }
 
 .instruction {
@@ -437,6 +455,370 @@ body {
     background-color: #ffcccc;
     border-color: #ff6666;
     transition: background-color 0.2s, border-color 0.2s;
+}
+
+@media screen and (min-width: 1025px) {
+    .storefront-img {
+        max-height: min(40vh, 320px);
+        object-fit: cover;
+        object-position: center;
+    }
+}
+
+/* ---------- 手机 / iPad 适配 ---------- */
+
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+    body {
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+            max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+        height: auto;
+        min-height: 100%;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .app-container {
+        width: 100%;
+        max-width: none;
+        height: auto;
+        min-height: min(100dvh, 100%);
+        max-height: none;
+        border-radius: 16px;
+        border-width: 4px;
+        margin: 0 auto;
+    }
+
+    .header {
+        height: auto;
+        min-height: 56px;
+        padding: 8px 12px 8px 52px;
+    }
+
+    .robot-container {
+        left: 12px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .title {
+        font-size: clamp(16px, 4.5vw, 22px);
+        letter-spacing: 1px;
+    }
+
+    .main-content {
+        flex-direction: column;
+        flex: 1 1 auto;
+        height: auto;
+        min-height: 0;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .left-panel {
+        flex: 0 0 auto;
+        width: 100%;
+        padding: 12px;
+        align-items: stretch;
+    }
+
+    .calc-header {
+        margin-bottom: 10px;
+        padding-left: 0;
+    }
+
+    .storefront-img {
+        max-height: min(24vh, 160px);
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+        margin-top: 0;
+    }
+
+    .calculator {
+        max-width: none;
+        width: 100%;
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .calc-screen {
+        height: auto;
+        min-height: 52px;
+        font-size: clamp(24px, 7vw, 34px);
+        padding: 10px 14px;
+        letter-spacing: 2px;
+    }
+
+    .calc-keys {
+        gap: 8px;
+    }
+
+    .calc-btn {
+        height: clamp(48px, 11vw, 58px);
+        font-size: clamp(20px, 5.5vw, 26px);
+        border-radius: 10px;
+    }
+
+    .right-panel {
+        flex: 1 1 auto;
+        min-height: 220px;
+    }
+
+    .instruction {
+        font-size: clamp(14px, 3.8vw, 18px);
+        padding-left: 4px;
+        margin-bottom: 8px;
+    }
+
+    .game-area {
+        flex: 1 1 auto;
+        min-height: 200px;
+        padding: 12px;
+    }
+
+    .fruits-container {
+        min-height: 160px;
+    }
+
+    .controls-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        padding-right: 0;
+    }
+
+    .reset-btn {
+        font-size: 20px;
+        padding: 0 20px;
+        height: 56px;
+    }
+
+    .check-btn {
+        width: 72px;
+        height: 56px;
+        font-size: 28px;
+    }
+}
+
+@media screen and (orientation: landscape) and (max-height: 560px) {
+    body {
+        padding: max(4px, env(safe-area-inset-top)) max(4px, env(safe-area-inset-right))
+            max(4px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
+        overflow-x: hidden;
+        overflow-y: auto;
+        align-items: flex-start;
+        height: auto;
+        min-height: 100dvh;
+    }
+
+    .app-container {
+        width: 100%;
+        max-width: none;
+        height: auto;
+        min-height: min(100dvh, 100%);
+        max-height: none;
+        border-radius: 12px;
+        border-width: 4px;
+    }
+
+    .header {
+        height: 48px;
+        min-height: 48px;
+        padding: 4px 10px 4px 50px;
+    }
+
+    .robot-container {
+        left: 10px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .title {
+        font-size: 16px;
+        letter-spacing: 0;
+    }
+
+    .main-content {
+        flex: 1 1 auto;
+        height: auto;
+        min-height: 0;
+        padding: 8px 10px;
+        gap: 10px;
+    }
+
+    .left-panel {
+        flex: 0 1 38%;
+        max-width: 42%;
+        padding: 8px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        align-items: stretch;
+        align-self: stretch;
+        max-height: calc(100dvh - 52px);
+    }
+
+    .calc-header {
+        margin-bottom: 6px;
+        padding-left: 0;
+    }
+
+    .storefront-img {
+        max-height: min(22vh, 100px);
+        width: 100%;
+        object-fit: cover;
+        margin-top: 0;
+    }
+
+    .calculator {
+        max-width: none;
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 12px;
+    }
+
+    .calc-screen {
+        min-height: 40px;
+        height: 40px;
+        font-size: 20px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+
+    .calc-keys {
+        gap: 5px;
+    }
+
+    .calc-btn {
+        height: 36px;
+        font-size: 16px;
+        border-radius: 8px;
+        box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .calc-btn:active {
+        transform: translateY(3px);
+    }
+
+    .right-panel {
+        flex: 1 1 58%;
+        min-width: 0;
+        min-height: 0;
+    }
+
+    .instruction {
+        font-size: 14px;
+        margin-bottom: 4px;
+        padding-left: 4px;
+    }
+
+    .game-area {
+        padding: 8px;
+        min-height: 0;
+    }
+
+    .bags-container {
+        gap: 16px;
+        min-height: 80px;
+    }
+
+    .bag-row {
+        gap: 12px;
+    }
+
+    .bag {
+        width: min(110px, 28vw);
+        height: min(125px, 32vw);
+        padding: 32px 14px 14px 14px;
+    }
+
+    .row-label {
+        width: 34px;
+        height: 34px;
+        font-size: 18px;
+    }
+
+    .fruits-container {
+        min-height: 90px;
+        margin-top: 10px;
+    }
+
+    .fruit {
+        width: min(56px, 14vw);
+        height: min(56px, 14vw);
+        font-size: min(48px, 12vw);
+    }
+
+    .bag .fruit {
+        width: 44px;
+        height: 44px;
+        font-size: 38px;
+        margin: 2px;
+    }
+
+    .controls-container {
+        margin-top: 8px;
+        gap: 10px;
+    }
+
+    .check-btn {
+        width: 64px;
+        height: 48px;
+        font-size: 24px;
+    }
+
+    .reset-btn {
+        font-size: 16px;
+        height: 48px;
+        padding: 0 16px;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
+    .calc-btn {
+        height: 56px;
+        font-size: 26px;
+    }
+
+    .calc-screen {
+        min-height: 60px;
+        font-size: 32px;
+    }
+}
+
+@media screen and (orientation: landscape) and (max-width: 1200px) and (min-height: 561px) {
+    body {
+        min-height: 100dvh;
+    }
+
+    .app-container {
+        max-height: min(100dvh, 100%);
+        min-height: 0;
+    }
+
+    .main-content {
+        min-height: 0;
+    }
+
+    .left-panel {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        align-self: stretch;
+        max-height: calc(100dvh - 88px);
+        min-height: 0;
+    }
+
+    .storefront-img {
+        max-height: min(32vh, 200px);
+        object-fit: cover;
+    }
+
+    .calculator {
+        max-width: 100%;
+    }
 }
     </style>
 </head>

@@ -311,6 +311,10 @@ body {
     padding: 45px 25px 25px 25px;
     transition: all 0.2s;
     border: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    -webkit-touch-callout: none;
 }
 
 .bag.highlight {

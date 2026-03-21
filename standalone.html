@@ -319,6 +319,10 @@ body {
     padding: 45px 25px 25px 25px;
     transition: all 0.2s;
     border: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    -webkit-touch-callout: none;
 }
 
 .bag.highlight {
@@ -1078,16 +1082,19 @@ function setupDragAndDrop(fruit) {
         draggedFruit = fruit;
         fruit.classList.add('dragging');
 
-        // 将水果重新挂载到 gameArea，使其可以自由浮动在袋子和水果区之上
         const fruitRect = fruit.getBoundingClientRect();
         const gameRect = gameArea.getBoundingClientRect();
 
+        // 将水果挂到 gameArea，坐标需要加上 gameArea 的滚动偏移
+        const left = fruitRect.left - gameRect.left + gameArea.scrollLeft;
+        const top = fruitRect.top - gameRect.top + gameArea.scrollTop;
+
         gameArea.appendChild(fruit);
         fruit.style.position = 'absolute';
-        fruit.style.left = (fruitRect.left - gameRect.left) + 'px';
-        fruit.style.top = (fruitRect.top - gameRect.top) + 'px';
+        fruit.style.left = left + 'px';
+        fruit.style.top = top + 'px';
 
-        // 记录指针在水果内的偏移量
+        // 指针在水果内的偏移量
         dragOffsetX = e.clientX - fruitRect.left;
         dragOffsetY = e.clientY - fruitRect.top;
 
@@ -1098,8 +1105,9 @@ function setupDragAndDrop(fruit) {
         if (draggedFruit !== fruit) return;
 
         const gameRect = gameArea.getBoundingClientRect();
-        fruit.style.left = (e.clientX - dragOffsetX - gameRect.left) + 'px';
-        fruit.style.top = (e.clientY - dragOffsetY - gameRect.top) + 'px';
+        // 移动时同样需要加上滚动偏移
+        fruit.style.left = (e.clientX - dragOffsetX - gameRect.left + gameArea.scrollLeft) + 'px';
+        fruit.style.top = (e.clientY - dragOffsetY - gameRect.top + gameArea.scrollTop) + 'px';
 
         checkBagHover(e.clientX, e.clientY);
     });

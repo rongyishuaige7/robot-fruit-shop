@@ -1076,16 +1076,44 @@ let draggedFruit = null;
 let dragOffsetX = 0;
 let dragOffsetY = 0;
 
+function endDrag(fruit, e) {
+    if (draggedFruit !== fruit) return;
+    fruit.releasePointerCapture(e.pointerId);
+    fruit.classList.remove('dragging');
+
+    // 恢复 gameArea 滚动
+    gameArea.style.overflowY = '';
+    gameArea.style.touchAction = '';
+
+    document.querySelectorAll('.bag').forEach(b => b.classList.remove('highlight'));
+
+    const targetBag = getTargetBag(e.clientX, e.clientY);
+
+    if (targetBag) {
+        fruit.style.position = 'relative';
+        fruit.style.left = 'auto';
+        fruit.style.top = 'auto';
+        targetBag.appendChild(fruit);
+    }
+
+    draggedFruit = null;
+}
+
 function setupDragAndDrop(fruit) {
     fruit.addEventListener('pointerdown', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         draggedFruit = fruit;
         fruit.classList.add('dragging');
+
+        // 锁定 gameArea 滚动，防止系统把拖拽手势判断为页面滚动
+        gameArea.style.overflowY = 'hidden';
+        gameArea.style.touchAction = 'none';
 
         const fruitRect = fruit.getBoundingClientRect();
         const gameRect = gameArea.getBoundingClientRect();
 
-        // 将水果挂到 gameArea，坐标需要加上 gameArea 的滚动偏移
+        // 将水果挂到 gameArea，坐标加上 gameArea 的滚动偏移
         const left = fruitRect.left - gameRect.left + gameArea.scrollLeft;
         const top = fruitRect.top - gameRect.top + gameArea.scrollTop;
 
@@ -1094,7 +1122,6 @@ function setupDragAndDrop(fruit) {
         fruit.style.left = left + 'px';
         fruit.style.top = top + 'px';
 
-        // 指针在水果内的偏移量
         dragOffsetX = e.clientX - fruitRect.left;
         dragOffsetY = e.clientY - fruitRect.top;
 
@@ -1103,36 +1130,19 @@ function setupDragAndDrop(fruit) {
 
     fruit.addEventListener('pointermove', (e) => {
         if (draggedFruit !== fruit) return;
+        e.preventDefault();
 
         const gameRect = gameArea.getBoundingClientRect();
-        // 移动时同样需要加上滚动偏移
         fruit.style.left = (e.clientX - dragOffsetX - gameRect.left + gameArea.scrollLeft) + 'px';
         fruit.style.top = (e.clientY - dragOffsetY - gameRect.top + gameArea.scrollTop) + 'px';
 
         checkBagHover(e.clientX, e.clientY);
     });
 
-    fruit.addEventListener('pointerup', (e) => {
-        if (draggedFruit !== fruit) return;
-        fruit.releasePointerCapture(e.pointerId);
-        fruit.classList.remove('dragging');
+    fruit.addEventListener('pointerup', (e) => endDrag(fruit, e));
 
-        document.querySelectorAll('.bag').forEach(b => b.classList.remove('highlight'));
-
-        const targetBag = getTargetBag(e.clientX, e.clientY);
-
-        if (targetBag) {
-            // 放入购物袋：水果变为袋内流式布局
-            fruit.style.position = 'relative';
-            fruit.style.left = 'auto';
-            fruit.style.top = 'auto';
-            targetBag.appendChild(fruit);
-        } else {
-            // 未放入袋子：保持在 gameArea 中的绝对定位，停在松手位置
-        }
-
-        draggedFruit = null;
-    });
+    // 拖拽被系统打断时（来电、切换应用等）也能正确还原
+    fruit.addEventListener('pointercancel', (e) => endDrag(fruit, e));
 }
 
 function checkBagHover(x, y) {

@@ -57,7 +57,9 @@ const fruitMap = {
     7: '🍓',
     8: '🥝',
     9: '🍊',
-    10: '🥭'
+    10: '🥭',
+    11: '🍉',
+    12: '🍋'
 };
 
 // --- 语音合成 ---
@@ -81,7 +83,7 @@ document.querySelectorAll('.calc-btn').forEach(btn => {
         const val = e.target.dataset.val;
         const num = parseInt(val);
         
-        if (num >= 1 && num <= 10) {
+        if (num >= 1 && num <= 12) {
             if (clickedNumbers.length >= 3) {
                 speak('桌子装不下啦，请先点击右下角的清空吧！');
                 // 视觉提示：清空按钮高亮抖动
